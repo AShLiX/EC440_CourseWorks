@@ -1,0 +1,1 @@
+fs.o: fs.c fs.h disk.h

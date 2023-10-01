@@ -1,0 +1,23 @@
+override CFLAGS := -Wall -Werror -std=gnu99 -pedantic -O0 -g -pthread $(CFLAGS)
+override LDLIBS := -pthread $(LDLIBS)
+
+disk.o: disk.c disk.h
+
+fs.o: fs.c fs.h disk.h
+
+test_fs.o: test_fs.c fs.h
+
+test_fs: test_fs.o fs.o disk.o
+	$(CC) $(LDFLAGS) $+ $(LOADLIBES) $(LDLIBS) -o $@
+
+test_fs_files = test_fs
+
+# Run the test programs
+
+check_fs: $(test_fs_files)
+	bash run_tests.sh $(test_fs_files)
+
+.PHONY: clean
+
+clean:
+	rm -f fs.o disk.o
